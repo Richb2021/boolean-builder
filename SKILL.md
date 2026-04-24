@@ -117,27 +117,31 @@ site:linkedin.com/in/ ("role title" OR "alternate title") ("key skill") ("locati
 site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter
 ```
 
-#### Wellfound (AngelList) String
+#### Stack Overflow String
 
-**What it is:** The primary platform for tech and startup talent in North America. Particularly strong in Canada (Toronto, Vancouver), the US, and remote-first roles. Less useful for non-technical or corporate roles.
+**What it is:** Developer Q&A platform with fully public, Google-indexed user profiles. A Stack Overflow profile shows demonstrated technical ability through real answers — a different and stronger signal than a LinkedIn headline. Most useful for software engineers, data scientists, and DevOps roles.
 
-**When to generate it:** Technical roles only (engineers, data scientists, product managers, designers). Skip for non-technical roles and note this to the user.
+**When to generate it:** Technical roles only. Skip for non-technical roles.
 
 **Syntax rules:**
-- Use Google X-ray with site:wellfound.com
-- Profile URLs are at wellfound.com/u/username — use site:wellfound.com/u/
-- Keep to 3-4 terms maximum — Wellfound pages are sparse, too many terms returns nothing
-- Include role title and one or two key skills
-- Location is often listed on profiles so include it
+- Use Google X-ray with site:stackoverflow.com/users
+- Keep to one or two key technical skills — Stack Overflow profiles are sparse on text
+- Location is sometimes listed; include it but do not rely on it
+- No OR groups — same as GitHub, keep it simple
 
 **Template structure:**
 ```
-site:wellfound.com/u/ "Role Title" OR "Alternate Title" "Key Skill" "Location"
+site:stackoverflow.com/users "Key Skill" "Location"
 ```
 
 **Example (Senior Python Engineer, Toronto):**
 ```
-site:wellfound.com/u/ ("Python engineer" OR "backend engineer" OR "software engineer") "Toronto"
+site:stackoverflow.com/users "Python" "Toronto"
+```
+
+**Example (ML Engineer):**
+```
+site:stackoverflow.com/users "machine learning" "PyTorch" OR "TensorFlow"
 ```
 
 ### Step 4: Quality Check
@@ -149,7 +153,7 @@ Before sending, verify each string:
 - [ ] LinkedIn string uses uppercase AND/OR/NOT, max two OR groups
 - [ ] Google string starts with site:linkedin.com/in/
 - [ ] GitHub string generated for technical roles only; alternate X-ray used for non-technical
-- [ ] Wellfound string generated for tech/startup roles in North America; skipped otherwise
+- [ ] Stack Overflow string generated for technical roles only; skipped otherwise
 - [ ] No string exceeds practical length limits
 - [ ] Strings are copy-paste ready — no explanation text inside them
 - [ ] Niche terminology is correct for the industry
