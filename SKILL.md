@@ -23,10 +23,32 @@ Extract these fields from the brief (use what you have, note gaps):
 - **Seniority** — years of experience, level (senior/lead/manager)
 - **Industry** — sector context that affects terminology
 
-### Step 2: Build Title Synonyms
+### Step 2: Build Layered Keyword Structure
 
-Before writing any string, list all realistic title variations for the role.
-Recruiters and candidates use different terms. Examples:
+Recruiters think in layers, not flat keyword lists. Before writing any string, categorise the role requirements into three layers:
+
+**Layer 1 — Core identity (must-have in every string)**
+- Job titles and their synonyms
+- The single primary technology or discipline (Python, SAP, BESS, etc.)
+
+**Layer 2 — Supporting skills (nice-to-have, widen recall)**
+- Frameworks, tools, methodologies
+- These should expand coverage, not restrict it
+- Include alternatives — a strong Python engineer may use Flask instead of Django
+
+**Layer 3 — Context filters (applied last)**
+- Location (often better applied via UI filter than Boolean)
+- Seniority signals
+- Industry context
+
+**The structured intent template (apply to every string):**
+```
+(TITLE GROUP) AND (CORE SKILL) AND (SUPPORTING SKILL GROUP) AND (LOCATION if needed)
+```
+
+This prevents the most common mistake: over-filtering by mixing core and supporting skills into one group, which eliminates strong candidates who describe their experience differently.
+
+**Title synonyms — always generate minimum 4-6:**
 
 | Role | Synonyms |
 |------|----------|
@@ -36,33 +58,40 @@ Recruiters and candidates use different terms. Examples:
 | Talent Acquisition | "Recruiter" "Talent Partner" "HR Business Partner" "People Operations" "Recruitment Manager" |
 | Data Scientist | "ML Engineer" "Machine Learning Scientist" "Data Analyst" "AI Engineer" "Research Scientist" |
 
-Always generate 4-6 title synonyms minimum. More for ambiguous roles.
-
-### Step 3: Generate the Three Strings
+### Step 3: Generate the Strings
 
 #### LinkedIn Recruiter String
 
-**Important:** This string is for **LinkedIn Recruiter** (paid tool, ~$170-200/seat/month). Regular LinkedIn search does not support Boolean operators — it treats AND/OR/NOT as keywords. Recruitment firms doing volume hiring will have Recruiter. Always clarify which tool the client is using.
+**Important:** This string is for **LinkedIn Recruiter** (paid tool, ~$170-200/seat/month). Regular LinkedIn search does not support Boolean operators. Always clarify which tool the client is using.
 
 **Syntax rules:**
 - AND, OR, NOT must be uppercase
-- Use quotes for multi-word phrases: "project manager"
-- Group alternatives in brackets: ("project manager" OR "delivery lead")
-- LinkedIn supports title:, company:, school: operators
-- **Maximum two OR groups** — LinkedIn Recruiter breaks with more than two nested groups. Keep it simple.
-- Keep under 500 characters to be safe
-- Do NOT use site: operator (that's Google)
+- Use quotes for multi-word phrases
+- Maximum two OR groups — LinkedIn Recruiter breaks with more
+- Keep under 500 characters
+- Do NOT use site: operator
+- Use LinkedIn's UI location filter rather than adding location to the string
 
-**Template structure:**
+**Structured template:**
 ```
-("Title 1" OR "Title 2" OR "Title 3" OR "Title 4") AND ("Key Skill 1" OR "Key Skill 2" OR "Key Skill 3")
+(TITLE GROUP) AND (CORE SKILL) AND (SUPPORTING SKILL GROUP)
 ```
 
-Add location as a third AND group only if needed — LinkedIn's location filter in the UI is often more reliable than Boolean location terms.
+The core skill sits as a mandatory standalone AND — this anchors the search without over-filtering on specific tools.
 
-**Example (BESS PM, Ontario):**
+**Example (Senior Python Engineer):**
 ```
-("BESS Project Manager" OR "Battery Storage Project Manager" OR "ESS Project Manager" OR "Energy Storage Manager") AND ("BESS" OR "battery energy storage" OR "EPC" OR "grid interconnection" OR "commissioning")
+("Senior Python Engineer" OR "Python Developer" OR "Backend Engineer" OR "Senior Backend Developer") AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes)
+```
+
+**Example (ERP Implementation Consultant):**
+```
+("ERP Implementation Consultant" OR "SAP Consultant" OR "SAP S/4HANA Consultant" OR "Systems Implementation Consultant") AND (SAP OR "S/4HANA") AND ("implementation" OR "go-live" OR UAT OR "change management" OR WRICEF)
+```
+
+**Example (BESS PM):**
+```
+("BESS Project Manager" OR "Battery Storage Project Manager" OR "ESS Project Manager" OR "Energy Storage Manager") AND BESS AND (commissioning OR "EPC" OR "grid interconnection" OR "IFC" OR "FEED")
 ```
 
 #### Google X-ray String
@@ -70,78 +99,86 @@ Add location as a third AND group only if needed — LinkedIn's location filter 
 **Syntax rules:**
 - Must start with: site:linkedin.com/in/
 - Use quotes for phrases
-- Use - to exclude: -"job title you want to exclude"
-- AND is implied by default; use OR explicitly
-- Include intitle: for profile headline matches
-- Aim for 3-5 key terms — too many and Google returns nothing
+- AND is implied; use OR explicitly
+- Aim for 3-4 term groups — too many and Google returns nothing
+- Avoid overly generic titles ("software engineer" alone is too broad — anchor with a core skill)
+- Use -recruiter -"talent acquisition" to filter noise
 
-**Template structure:**
+**Structured template:**
 ```
-site:linkedin.com/in/ ("Title 1" OR "Title 2") ("Skill 1" OR "Skill 2") "Location"
-```
-
-**Example (BESS PM, Ontario):**
-```
-site:linkedin.com/in/ ("BESS Project Manager" OR "Battery Storage" OR "Energy Storage") ("project manager" OR "delivery lead" OR "programme manager") ("Ontario" OR "Toronto" OR "Canada")
-```
-
-#### GitHub String
-
-**Important:** GitHub search is NOT Boolean. It does not support OR groups with brackets. Use single keywords with qualifier filters. GitHub is only productive for technical roles — developers, data scientists, ML engineers, DevOps. For non-technical roles, produce a second Google X-ray variant instead.
-
-**Syntax rules:**
-- One or two keywords maximum — GitHub search is keyword-based, not Boolean
-- `in:bio` — searches profile bio/description
-- `followers:>N` — filters active users (use >5 to remove empty accounts)
-- `location:"City"` — location filter (not always populated by users)
-- `language:Python` — primary coding language (for technical roles)
-- No OR groups, no brackets, no AND/NOT operators
-
-**Template structure (technical roles):**
-```
-"key skill or title" in:bio language:Python followers:>10
-```
-
-**Template structure (non-technical roles — second Google X-ray instead):**
-```
-site:linkedin.com/in/ ("role title" OR "alternate title") ("key skill") ("location") -recruiter
-```
-
-**Example (AI Consultant — technical adjacent):**
-```
-"AI consultant" in:bio followers:>10
-```
-
-**Example (BESS PM — non-technical, second Google X-ray):**
-```
-site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter
-```
-
-#### Stack Overflow String
-
-**What it is:** Developer Q&A platform with fully public, Google-indexed user profiles. A Stack Overflow profile shows demonstrated technical ability through real answers — a different and stronger signal than a LinkedIn headline. Most useful for software engineers, data scientists, and DevOps roles.
-
-**When to generate it:** Technical roles only. Skip for non-technical roles.
-
-**Syntax rules:**
-- Use Google X-ray with site:stackoverflow.com/users
-- Keep to one or two key technical skills — Stack Overflow profiles are sparse on text
-- Location is sometimes listed; include it but do not rely on it
-- No OR groups — same as GitHub, keep it simple
-
-**Template structure:**
-```
-site:stackoverflow.com/users "Key Skill" "Location"
+site:linkedin.com/in/ (SPECIFIC TITLE GROUP) (CORE SKILL) (LOCATION GROUP)
 ```
 
 **Example (Senior Python Engineer, Toronto):**
 ```
-site:stackoverflow.com/users "Python" "Toronto"
+site:linkedin.com/in/ ("Python engineer" OR "Python developer" OR "backend engineer") (Python AND (Django OR FastAPI OR Flask OR microservices OR AWS)) ("Toronto" OR "Ontario" OR "Canada")
+```
+
+**Example (ERP Consultant, Manchester):**
+```
+site:linkedin.com/in/ ("SAP consultant" OR "ERP consultant" OR "SAP S/4HANA") (SAP OR "S/4HANA") ("Manchester" OR "North West" OR "UK")
+```
+
+**Example (BESS PM, Ontario):**
+```
+site:linkedin.com/in/ ("BESS Project Manager" OR "Battery Storage" OR "Energy Storage") ("BESS" OR "battery energy storage" OR "grid interconnection") ("Ontario" OR "Toronto" OR "Canada")
+```
+
+#### GitHub String
+
+**Important:** GitHub search is NOT Boolean. No OR groups, no brackets. Technical roles only — for non-technical roles, produce a second Google X-ray variant instead.
+
+**Syntax rules:**
+- `in:bio` — searches profile bio
+- `followers:>10` — filters hobby/inactive accounts
+- `repos:>3` — filters accounts with real activity
+- `language:` — primary coding language
+- `location:"City"` — location (not always populated)
+- One or two keywords only
+
+**Template (technical roles):**
+```
+"core skill" in:bio language:PrimaryLanguage location:"City" followers:>10 repos:>3
+```
+
+**Template (non-technical roles — second Google X-ray instead):**
+```
+site:linkedin.com/in/ ("role title" OR "alternate title") ("core skill") ("location") -recruiter -"talent acquisition"
+```
+
+**Example (Senior Python Engineer, Toronto):**
+```
+Python in:bio language:Python location:"Toronto" followers:>10 repos:>3
+```
+
+**Example (BESS PM — non-technical, second X-ray):**
+```
+site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter -"talent acquisition"
+```
+
+#### Stack Overflow String
+
+**What it is:** Demonstrated technical ability through real answers — stronger signal than a LinkedIn headline. Technical roles only.
+
+**Syntax rules:**
+- Use Google X-ray: site:stackoverflow.com/users
+- Use an OR group for related technologies — this is Google syntax, OR groups work here
+- Include location
+- Keep to 3-4 terms maximum
+
+**Template:**
+```
+site:stackoverflow.com/users ("Skill 1" OR "Skill 2" OR "Skill 3") "Location"
+```
+
+**Example (Senior Python Engineer, Toronto):**
+```
+site:stackoverflow.com/users ("Python" OR "Django" OR "FastAPI") "Toronto"
 ```
 
 **Example (ML Engineer):**
 ```
-site:stackoverflow.com/users "machine learning" "PyTorch" OR "TensorFlow"
+site:stackoverflow.com/users ("machine learning" OR "PyTorch" OR "TensorFlow") "London"
 ```
 
 ### Step 4: Quality Check
