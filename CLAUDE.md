@@ -40,6 +40,9 @@ Write operations (notify.py SMS/webhook) are the only external action — always
 ## On Session Start
 
 1. Read SKILL.md for platform syntax rules and TA knowledge
-2. Identify the role brief — either from this session's prompt or from tools/role-brief.txt if it exists
-3. Generate the three Boolean strings
-4. Send results via notify.py
+2. Identify the role brief:
+   - If the user has provided role details in their message, use those
+   - If tools/role-brief.txt exists and has content, use that
+   - If neither, ask: "What role are you sourcing for? Share the title, location, and key skills."
+3. Generate the strings for all relevant platforms
+4. Send results via notify.py if a notification channel is configured, otherwise print to terminal
