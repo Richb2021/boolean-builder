@@ -23,14 +23,15 @@ Each string comes with a one-line rationale explaining the keyword strategy, so 
 
 ### Option 1 — AI desktop and CLI apps (recommended)
 
-For apps that have file system access — Claude Code, Cowork, Codex CLI, OpenCode, ChatGPT desktop, Gemini CLI — clone the repo, edit the role brief, and open the folder in your app.
+Works with Cowork, Claude Code, Codex App, Gemini CLI, OpenCode, ChatGPT desktop, or any other AI app that has access to a folder on your computer.
 
 **Setup:**
 
-```bash
-git clone https://github.com/Richb2021/boolean-builder.git
-cd boolean-builder
-```
+1. Download the zip from GitHub (green Code button → Download ZIP)
+2. Extract it to a folder anywhere on your computer
+3. Open `tools/role-brief.txt` and fill in your mandate
+
+Or if you prefer the command line: `git clone https://github.com/Richb2021/boolean-builder.git`
 
 **Edit the role brief:**
 
