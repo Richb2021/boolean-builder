@@ -29,33 +29,21 @@ Works with Cowork, Claude Code, Codex App, Gemini CLI, OpenCode, ChatGPT desktop
 
 1. Download the zip from GitHub (green Code button → Download ZIP)
 2. Extract it to a folder anywhere on your computer
-3. Open `tools/role-brief.txt` and fill in your mandate
+3. Open the folder in your AI app
+4. Provide the role brief — either type it directly, paste it in, or drop it into `tools/role-brief.txt`
 
 Or if you prefer the command line: `git clone https://github.com/Richb2021/boolean-builder.git`
-
-**Edit the role brief:**
-
-Open `tools/role-brief.txt` and fill in your mandate:
-
-```
-Role: Senior Python Engineer
-Location: Toronto, Canada
-Industry: Fintech / SaaS
-Experience: 5+ years
-Skills: Python, FastAPI, Django, microservices, PostgreSQL, AWS, Docker
-Notes: Series B company, hybrid working
-```
 
 **Run in your app:**
 
 | App | What to do |
 |-----|-----------|
-| Claude Code / Cowork | Open the folder — reads `CLAUDE.md` automatically and runs |
-| Codex CLI / OpenCode | Open the folder — reads `AGENTS.md` automatically and runs |
-| ChatGPT desktop | Open the folder, ask it to read `AGENTS.md` and generate strings |
-| Gemini CLI | Open the folder, ask it to read `SKILL.md` and generate strings |
+| Cowork / Claude Code | Open the folder — reads `CLAUDE.md` automatically |
+| Codex App / OpenCode | Open the folder — reads `AGENTS.md` automatically |
+| ChatGPT desktop | Open the folder, ask it to read `AGENTS.md` |
+| Gemini CLI | Open the folder, ask it to read `SKILL.md` |
 
-The agent reads your role brief, generates all four strings with rationale, and prints results to the terminal. If notification channels are configured it can also send results by SMS or webhook — see below.
+Provide the role title, location, and key skills. The agent generates all four strings with rationale and prints results. If notification channels are configured it sends results by SMS or webhook instead — see below.
 
 ---
 
