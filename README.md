@@ -1,8 +1,8 @@
-# Boolean String Builder
+# Boolean String Builder Skill
 
-A free tool that generates platform-ready Boolean search strings for recruiters in seconds.
+An AI-agent skill that generates platform-ready candidate search strings for recruiters.
 
-Give it a role brief. Get back three copy-paste-ready search strings for LinkedIn Recruiter, Google X-ray, and GitHub. No setup, no subscription, no interface to learn.
+Give the agent a role brief. It returns copy-paste-ready sourcing strings for LinkedIn Recruiter, Google X-ray, and either GitHub user search or a second X-ray variant for non-technical roles. No separate app or UI is shipped in this repo.
 
 ---
 
@@ -20,15 +20,16 @@ This tool takes a role brief and does it in seconds.
 - Years of experience (optional)
 
 **Output:**
-- LinkedIn Recruiter string (ready to paste into LinkedIn search)
-- Google X-ray string (ready to paste into Google)
-- GitHub string (for technical roles)
+- LinkedIn Recruiter string, ready to paste into the relevant Recruiter keyword/title field
+- Google X-ray string, ready to paste into Google
+- GitHub user-search string for technical roles, or an alternate Google X-ray string for non-technical roles
+- The assumptions and title synonyms used to build the strings
 
 ---
 
 ## How to run it
 
-You need Python 3 and an Anthropic API key. If you do not have one, get it free at [console.anthropic.com](https://console.anthropic.com) — the free tier is enough.
+This repository is a skill/instruction pack, not a standalone browser app.
 
 **1. Clone the repo**
 
@@ -37,48 +38,45 @@ git clone https://github.com/Richb2021/boolean-builder.git
 cd boolean-builder
 ```
 
-**2. Run it**
+**2. Use the skill**
 
-```bash
-python boolean_builder.py
+In an agent environment that supports local skills, point the agent at `SKILL.md` and provide a role brief in the chat or in `tools/role-brief.txt`.
+
+Example prompt:
+
+```text
+Use the boolean-builder skill for this mandate:
+
+Role: Senior ERP Implementation Lead
+Location: Midlands, UK
+Industry: Manufacturing
+Experience: 8+ years
+Skills: SAP S/4HANA, change management, UAT, go-live, stakeholder management
 ```
 
-The browser opens automatically at `http://localhost:8080`.
+**3. Optional notifications**
 
-**3. Enter your API key**
-
-Paste your Anthropic API key into the field at the top of the page, or set it as an environment variable:
-
-```bash
-export ANTHROPIC_API_KEY=sk-ant-...
-python boolean_builder.py
-```
-
-**4. Fill in the role brief and hit Generate**
+`tools/notify.py` can send generated strings by SMS, webhook, or email when the relevant environment variables are configured. If no channel is configured, the script exits non-zero so automation does not silently report success.
 
 ---
 
-## As an agent (run remotely via webhook)
+## As an automated agent
 
-The `boolean-builder-agent/` folder contains the same tool built as a Claude Code agent. This version runs on Anthropic's infrastructure, reads a `role-brief.txt` file, generates the strings, and sends results by SMS or webhook — no browser, no local server.
+The skill can be used in an automated recruitment workflow:
 
-This is the pattern for running it as part of an automated recruitment workflow:
-
-1. Push a `role-brief.txt` to the repo with the mandate details
-2. Trigger fires automatically via GitHub webhook
-3. Boolean strings arrive by SMS or webhook within a minute
-
-See `boolean-builder-agent/SKILL.md` for full setup instructions.
+1. Put the mandate details in `tools/role-brief.txt`
+2. Trigger an agent run that reads `SKILL.md` and the brief
+3. Return the generated strings in the session log, or call `tools/notify.py` if a delivery channel is configured
 
 ---
 
 ## The strings it generates
 
-**LinkedIn Recruiter** — uses standard Boolean syntax (AND/OR/NOT in capitals, quoted phrases, grouped alternatives). Built for LinkedIn Recruiter, the paid tool used by most recruitment firms doing volume hiring. Note: regular LinkedIn search does not support Boolean operators.
+**LinkedIn Recruiter** — uses standard Boolean syntax (AND/OR/NOT in capitals, quoted phrases, grouped alternatives). Built for LinkedIn Recruiter and Recruiter Lite workflows, where recruitment firms can combine Boolean text with sourcing filters.
 
 **Google X-ray** — uses `site:linkedin.com/in/` to search public LinkedIn profiles from Google. Useful when LinkedIn's own algorithm doesn't surface the candidates you need. Works on any Google account, no subscription required.
 
-**GitHub** — keyword search with `in:bio` and `followers:` filters. Most useful for technical roles where candidates have an active GitHub presence.
+**GitHub** — user search using supported qualifiers such as `language:`, `location:`, `followers:`, `repos:`, and `type:user`. Most useful for technical roles where candidates have an active GitHub presence. For profile-bio/title terms, use a Google X-ray against `github.com` rather than unsupported GitHub bio syntax.
 
 ---
 

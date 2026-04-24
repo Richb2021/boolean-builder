@@ -199,8 +199,8 @@ def main():
     results = dispatch(args.message, args.channel)
     print(json.dumps(results, indent=2))
 
-    # Exit non-zero if all channels failed
-    if all(r.get("status") in ("error",) for r in results):
+    # Automation should fail if nothing was actually delivered.
+    if not any(r.get("status") == "sent" for r in results):
         sys.exit(1)
 
 

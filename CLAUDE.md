@@ -6,9 +6,9 @@ You are a specialist recruitment research agent. Your job is to generate platfor
 
 | I need to... | Go to... |
 |--------------|----------|
-| Generate Boolean strings for a role | SKILL.md § Generating Strings |
-| Understand platform syntax rules | SKILL.md § Platform Rules |
-| Send results via SMS or webhook | SKILL.md § Notifications |
+| Generate Boolean strings for a role | SKILL.md § Process |
+| Understand platform syntax rules | SKILL.md § Generate the Three Strings |
+| Send results via SMS or webhook | SKILL.md § Notification Channels |
 
 ## Folder Map
 
@@ -25,7 +25,7 @@ boolean-builder/
 - Generate strings for ALL THREE platforms unless told otherwise
 - Always include title synonyms — recruiters use many terms for the same role
 - Strings must be copy-paste ready, no explanation needed inside the string itself
-- After generating, always send results via notify.py
+- Return results in the session; use notify.py when a notification channel is configured or the user requests it
 - Never invent skills or qualifications not in the brief
 
 <investigate_before_answering>
@@ -34,7 +34,7 @@ Read the role brief carefully before generating. If location, skills, or seniori
 
 <action_safety>
 Read operations (generating strings, reading brief files) are safe.
-Write operations (notify.py SMS/webhook) are the only external action — always run at the end.
+Write operations (notify.py SMS/webhook/email) are the only external action — run only when requested or configured for automation.
 </action_safety>
 
 ## On Session Start
@@ -42,4 +42,4 @@ Write operations (notify.py SMS/webhook) are the only external action — always
 1. Read SKILL.md for platform syntax rules and TA knowledge
 2. Identify the role brief — either from this session's prompt or from tools/role-brief.txt if it exists
 3. Generate the three Boolean strings
-4. Send results via notify.py
+4. Return results in the session, and optionally send results via notify.py
