@@ -81,18 +81,21 @@ The core skill sits as a mandatory standalone AND — this anchors the search wi
 
 **Example (Senior Python Engineer):**
 ```
-("Senior Python Engineer" OR "Python Developer" OR "Backend Engineer" OR "Senior Backend Developer") AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes)
+("Senior Python Engineer" OR "Python Developer" OR "Backend Engineer" OR "Senior Backend Developer") AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes OR Docker OR PostgreSQL OR "REST API")
 ```
+*Rationale: Broad title match + Python anchor + flexible skill coverage including database and API layer for maximum recall without wrecking quality.*
 
 **Example (ERP Implementation Consultant):**
 ```
-("ERP Implementation Consultant" OR "SAP Consultant" OR "SAP S/4HANA Consultant" OR "Systems Implementation Consultant") AND (SAP OR "S/4HANA") AND ("implementation" OR "go-live" OR UAT OR "change management" OR WRICEF)
+("ERP Implementation Consultant" OR "SAP Consultant" OR "SAP S/4HANA Consultant" OR "Systems Implementation Consultant") AND (SAP OR "S/4HANA" OR "S4HANA" OR "S/4") AND ("implementation" OR "go-live" OR UAT OR "change management" OR WRICEF OR RICE)
 ```
+*Rationale: Core tech anchor covers all SAP version abbreviations candidates actually use — S4HANA and S/4 alone can add 20-30% more results. Process terms kept as supporting layer.*
 
 **Example (BESS PM):**
 ```
 ("BESS Project Manager" OR "Battery Storage Project Manager" OR "ESS Project Manager" OR "Energy Storage Manager") AND BESS AND (commissioning OR "EPC" OR "grid interconnection" OR "IFC" OR "FEED")
 ```
+*Rationale: BESS as mandatory anchor eliminates generic PM noise. Supporting terms cover the full project lifecycle vocabulary used in renewables.*
 
 #### Google X-ray String
 
@@ -111,18 +114,21 @@ site:linkedin.com/in/ (SPECIFIC TITLE GROUP) (CORE SKILL) (LOCATION GROUP)
 
 **Example (Senior Python Engineer, Toronto):**
 ```
-site:linkedin.com/in/ ("Python engineer" OR "Python developer" OR "backend engineer") (Python AND (Django OR FastAPI OR Flask OR microservices OR AWS)) ("Toronto" OR "Ontario" OR "Canada")
+site:linkedin.com/in/ ("Python engineer" OR "Python developer" OR "backend engineer") (Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Docker)) ("Toronto" OR "Ontario" OR "Canada")
 ```
+*Rationale: X-ray tuned for public profiles with strong backend signals. Docker added to cover real-world infrastructure experience not always listed on LinkedIn.*
 
 **Example (ERP Consultant, Manchester):**
 ```
 site:linkedin.com/in/ ("SAP consultant" OR "ERP consultant" OR "SAP S/4HANA") (SAP OR "S/4HANA") ("Manchester" OR "North West" OR "UK")
 ```
+*Rationale: Clean title and core tech anchor. Location covers the regional hiring radius. Process terms excluded here — recruiter can layer manually after first pass.*
 
 **Example (BESS PM, Ontario):**
 ```
 site:linkedin.com/in/ ("BESS Project Manager" OR "Battery Storage" OR "Energy Storage") ("BESS" OR "battery energy storage" OR "grid interconnection") ("Ontario" OR "Toronto" OR "Canada")
 ```
+*Rationale: Niche enough that broad title match + one technical term surfaces the right pool. Grid interconnection is a strong signal of hands-on project experience.*
 
 #### GitHub String
 
@@ -150,11 +156,13 @@ site:linkedin.com/in/ ("role title" OR "alternate title") ("core skill") ("locat
 ```
 Python in:bio language:Python location:"Toronto" followers:>10 repos:>3
 ```
+*Rationale: Filters hobby accounts (followers) and empty profiles (repos). language:Python confirms active coding, not just claimed skills.*
 
 **Example (BESS PM — non-technical, second X-ray):**
 ```
 site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter -"talent acquisition"
 ```
+*Rationale: Alternate X-ray surfaces candidates outside LinkedIn's algorithm. Negative exclusions remove recruiters and TA professionals from results — quiet intelligence that separates average from strong sourcing.*
 
 #### Stack Overflow String
 
@@ -173,13 +181,15 @@ site:stackoverflow.com/users ("Skill 1" OR "Skill 2" OR "Skill 3") "Location"
 
 **Example (Senior Python Engineer, Toronto):**
 ```
-site:stackoverflow.com/users ("Python" OR "Django" OR "FastAPI") "Toronto"
+site:stackoverflow.com/users ("Python" OR "Django" OR "FastAPI") "Toronto" "reputation"
 ```
+*Rationale: Adding "reputation" filters for users with an active reputation score on their profile page — removes low-activity accounts from results.*
 
 **Example (ML Engineer):**
 ```
-site:stackoverflow.com/users ("machine learning" OR "PyTorch" OR "TensorFlow") "London"
+site:stackoverflow.com/users ("machine learning" OR "PyTorch" OR "TensorFlow") "London" "reputation"
 ```
+*Rationale: Stack Overflow is a lower-yield platform than GitHub for sourcing but surfaces candidates who demonstrate technical depth through real answers, not just claimed skills.*
 
 ### Step 4: Quality Check
 
@@ -197,6 +207,8 @@ Before sending, verify each string:
 
 ### Step 5: Send Results
 
+**Always include a one-line rationale under each string.** This is not optional — it tells the recruiter why the string is built the way it is and builds trust in the output. Keep it to one sentence. Focus on the keyword strategy, not a description of the string itself.
+
 Format the notification clearly. Example:
 
 ```
@@ -204,6 +216,7 @@ python tools/notify.py "Boolean strings for [Role] in [Location]:
 
 LINKEDIN:
 [full linkedin string]
+Rationale: [one sentence]
 
 GOOGLE:
 [full google string]
