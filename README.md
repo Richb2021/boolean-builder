@@ -90,7 +90,7 @@ If no channels are configured the script exits with code 1 and results print to 
 
 **GitHub** — keyword search with `followers:` and `location:` filters. Most useful for technical roles where candidates have an active GitHub presence. Tested and confirmed working.
 
-**Wellfound (AngelList)** — Google X-ray on `wellfound.com/u/` profiles. The main platform for tech and startup talent in North America. Generated for technical roles only.
+**Stack Overflow** — Google X-ray on `stackoverflow.com/users` profiles. Shows demonstrated technical ability through real Q&A answers, not just claimed skills. Generated for technical roles only.
 
 ---
 
