@@ -84,11 +84,13 @@ If no channels are configured the script exits with code 1 and results print to 
 
 ## The strings it generates
 
-**LinkedIn Recruiter** — standard Boolean syntax (AND/OR/NOT in capitals, quoted phrases, grouped alternatives). Built for LinkedIn Recruiter. Note: regular LinkedIn search does not fully support Boolean operators.
+**LinkedIn Recruiter** — built to LinkedIn Recruiter's Boolean syntax spec (AND/OR/NOT in capitals, quoted phrases, grouped alternatives, two OR groups maximum). LinkedIn Recruiter is a paid tool — if you've tested these strings and have feedback on how they perform, open an issue or leave a comment. Note: regular LinkedIn search does not support Boolean operators.
 
-**Google X-ray** — uses `site:linkedin.com/in/` to surface public LinkedIn profiles via Google. Works without a LinkedIn subscription. Often finds candidates LinkedIn's own algorithm misses.
+**Google X-ray** — uses `site:linkedin.com/in/` to surface public LinkedIn profiles via Google. Works without a LinkedIn subscription. Often finds candidates LinkedIn's own algorithm misses. Tested and confirmed working.
 
-**GitHub** — keyword search with `followers:` and `location:` filters. Most useful for technical roles where candidates have an active GitHub presence.
+**GitHub** — keyword search with `followers:` and `location:` filters. Most useful for technical roles where candidates have an active GitHub presence. Tested and confirmed working.
+
+**Wellfound (AngelList)** — Google X-ray on `wellfound.com/u/` profiles. The main platform for tech and startup talent in North America. Generated for technical roles only.
 
 ---
 
