@@ -21,19 +21,7 @@ Each string comes with a one-line rationale explaining the keyword strategy, so 
 
 ## How to use it
 
-### Option 1 — Any AI chat tool (no setup)
-
-1. Open [PROMPT.md](./PROMPT.md)
-2. Copy the entire prompt
-3. Paste it into ChatGPT, Claude, Gemini, Copilot, or any other AI chat interface
-4. Fill in the role details where marked
-5. Hit send
-
-You get back strings for all four platforms with rationale. Nothing to install.
-
----
-
-### Option 2 — AI desktop and CLI apps (clone and run)
+### Option 1 — AI desktop and CLI apps (recommended)
 
 For apps that have file system access — Claude Code, Cowork, Codex CLI, OpenCode, ChatGPT desktop, Gemini CLI — clone the repo, edit the role brief, and open the folder in your app.
 
@@ -67,6 +55,17 @@ Notes: Series B company, hybrid working
 | Gemini CLI | Open the folder, ask it to read `SKILL.md` and generate strings |
 
 The agent reads your role brief, generates all four strings with rationale, and prints results to the terminal. If notification channels are configured it can also send results by SMS or webhook — see below.
+
+---
+
+### Option 2 — Any AI chat tool (no desktop app)
+
+If you don't have a compatible desktop app, the repo includes a copy-paste prompt that works with any chat interface.
+
+1. Open [PROMPT.md](./PROMPT.md)
+2. Copy the entire prompt
+3. Paste into ChatGPT, Claude, Gemini, Copilot, or any other chat tool
+4. Fill in the role details where marked and hit send
 
 ---
 
