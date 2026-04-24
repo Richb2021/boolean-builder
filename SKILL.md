@@ -3,8 +3,8 @@ name: boolean-builder
 description: |
   Recruitment Boolean String Generator. Takes a role brief and generates
   platform-ready Boolean search strings for LinkedIn Recruiter, Google X-ray,
-  and GitHub user search. Handles niche technical and professional roles.
-  Can send results via SMS, webhook, or email using notify.py when requested.
+  and GitHub. Handles niche technical and professional roles. Sends results
+  via SMS, webhook, or email using notify.py.
 ---
 
 # Boolean String Builder
@@ -42,14 +42,14 @@ Always generate 4-6 title synonyms minimum. More for ambiguous roles.
 
 #### LinkedIn Recruiter String
 
-**Important:** This string is optimized for **LinkedIn Recruiter** and Recruiter Lite workflows. LinkedIn.com also supports standard Boolean searches, but Recruiter gives sourcing teams better candidate filters and saved-search workflows. Always clarify which tool the client is using.
+**Important:** This string is for **LinkedIn Recruiter** (paid tool, ~$170-200/seat/month). Regular LinkedIn search does not support Boolean operators — it treats AND/OR/NOT as keywords. Recruitment firms doing volume hiring will have Recruiter. Always clarify which tool the client is using.
 
 **Syntax rules:**
 - AND, OR, NOT must be uppercase
 - Use quotes for multi-word phrases: "project manager"
-- Group alternatives in parentheses: ("project manager" OR "delivery lead")
+- Group alternatives in brackets: ("project manager" OR "delivery lead")
 - LinkedIn supports title:, company:, school: operators
-- Keep OR groups shallow and readable; use Recruiter filters for location, industry, seniority, and company constraints where possible
+- **Maximum two OR groups** — LinkedIn Recruiter breaks with more than two nested groups. Keep it simple.
 - Keep under 500 characters to be safe
 - Do NOT use site: operator (that's Google)
 
@@ -87,22 +87,19 @@ site:linkedin.com/in/ ("BESS Project Manager" OR "Battery Storage" OR "Energy St
 
 #### GitHub String
 
-**Important:** GitHub search is only productive for technical roles — developers, data scientists, ML engineers, DevOps, platform engineers, security engineers. For non-technical roles, produce a second Google X-ray variant instead.
+**Important:** GitHub search is NOT Boolean. It does not support OR groups with brackets. Use single keywords with qualifier filters. GitHub is only productive for technical roles — developers, data scientists, ML engineers, DevOps. For non-technical roles, produce a second Google X-ray variant instead.
 
 **Syntax rules:**
-- Use GitHub user-search qualifiers that GitHub documents for people search
-- `type:user` — excludes organizations
-- `followers:>N` — filters for accounts with some community signal
-- `repos:>N` — filters for accounts with public repository activity
+- One or two keywords maximum — GitHub search is keyword-based, not Boolean
+- `in:bio` — searches profile bio/description
+- `followers:>N` — filters active users (use >5 to remove empty accounts)
 - `location:"City"` — location filter (not always populated by users)
-- `language:Python` — users whose repositories are mostly in that language
-- `in:name` — searches the user's real name field; GitHub does not document `in:bio`
-- Avoid OR groups and long keyword lists; GitHub user search is weaker than LinkedIn/Google for role-title matching
-- For profile bio/headline terms, use Google X-ray against GitHub profiles
+- `language:Python` — primary coding language (for technical roles)
+- No OR groups, no brackets, no AND/NOT operators
 
 **Template structure (technical roles):**
 ```
-language:Python location:"City" followers:>10 repos:>3 type:user
+"key skill or title" in:bio language:Python followers:>10
 ```
 
 **Template structure (non-technical roles — second Google X-ray instead):**
@@ -112,12 +109,7 @@ site:linkedin.com/in/ ("role title" OR "alternate title") ("key skill") ("locati
 
 **Example (AI Consultant — technical adjacent):**
 ```
-language:Python location:"United Kingdom" followers:>10 repos:>3 type:user
-```
-
-**Example (GitHub profile X-ray for bio/title terms):**
-```
-site:github.com ("AI consultant" OR "machine learning engineer") ("Python" OR "LLM") ("United Kingdom" OR "London")
+"AI consultant" in:bio followers:>10
 ```
 
 **Example (BESS PM — non-technical, second Google X-ray):**
@@ -137,9 +129,7 @@ Before sending, verify each string:
 - [ ] Strings are copy-paste ready — no explanation text inside them
 - [ ] Niche terminology is correct for the industry
 
-### Step 5: Deliver Results
-
-In an interactive session, return the strings directly to the user. In an automated workflow, send results with `tools/notify.py` if a channel is configured or the user asked for notification.
+### Step 5: Send Results
 
 Format the notification clearly. Example:
 
@@ -156,7 +146,7 @@ GITHUB/ALTERNATE:
 [full github string]"
 ```
 
-If the message is too long for SMS (>1,600 chars), summarise and note that full strings are in the session log. If no notification channel is configured, do not claim a notification was sent.
+If the message is too long for SMS (>1,600 chars), summarise and note that full strings are in the session log.
 
 ## Common TA Roles — Quick Reference
 
@@ -196,8 +186,6 @@ python tools/notify.py "Message" --channel twilio
 python tools/notify.py "Message" --channel webhook
 ```
 
-The script exits non-zero if no channel sends successfully.
-
 ## Reading a Role Brief from File
 
 If tools/role-brief.txt exists, read it first:
@@ -223,5 +211,5 @@ Notes: Client prefers Ontario-based candidates, open to remote from elsewhere in
 - [ ] Minimum 4 title synonyms per role
 - [ ] All three platform strings generated (or explained why not)
 - [ ] Strings are copy-paste ready
-- [ ] Results returned in the session or sent via notify.py when requested/configured
+- [ ] Results sent via notify.py
 - [ ] Assumptions noted if brief was incomplete
