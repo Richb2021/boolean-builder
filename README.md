@@ -4,17 +4,33 @@ Generate platform-ready Boolean search strings for recruiters. Works with any AI
 
 ---
 
-## Quickstart — no setup required
+## Three ways to use it
 
-**Copy the prompt from [PROMPT.md](./PROMPT.md), paste it into any AI tool, fill in your role details, hit send.**
+### 1. Any AI chat tool — no setup at all
 
-Works with ChatGPT, Claude, Gemini, Copilot, Grok, OpenCode, or any other AI assistant. No install. No account. No setup.
+Copy the prompt from [PROMPT.md](./PROMPT.md), paste into ChatGPT, Claude, Gemini, Copilot, or any other chat interface. Fill in the role. Hit send. Works anywhere, nothing to install.
 
-You get back search strings for:
-- LinkedIn Recruiter
-- Google X-ray
-- GitHub (technical roles)
-- Stack Overflow (technical roles)
+### 2. AI desktop and CLI apps — clone and run
+
+For apps that have file access and can run Python, clone the repo and point your app at it. Edit `tools/role-brief.txt` with your mandate, then run.
+
+| App | How to use |
+|-----|-----------|
+| Claude Code / Cowork | Open the folder — reads `CLAUDE.md` automatically |
+| Codex CLI / OpenCode | Open the folder — reads `AGENTS.md` automatically |
+| ChatGPT desktop app | Open the folder and ask it to read `AGENTS.md` and generate strings |
+| Gemini CLI | Open the folder and ask it to read `SKILL.md` and generate strings |
+
+```bash
+git clone https://github.com/Richb2021/boolean-builder.git
+cd boolean-builder
+# Edit tools/role-brief.txt with your role
+# Open in your AI app and run
+```
+
+### 3. Automated / webhook — fire remotely, get results by SMS
+
+Point a Claude Code Routine at this repo. Update `tools/role-brief.txt` and trigger via webhook. Results arrive by SMS or webhook within a minute. See [SKILL.md](./SKILL.md) for setup.
 
 ---
 
