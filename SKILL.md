@@ -117,14 +117,39 @@ site:linkedin.com/in/ ("role title" OR "alternate title") ("key skill") ("locati
 site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter
 ```
 
+#### Wellfound (AngelList) String
+
+**What it is:** The primary platform for tech and startup talent in North America. Particularly strong in Canada (Toronto, Vancouver), the US, and remote-first roles. Less useful for non-technical or corporate roles.
+
+**When to generate it:** Technical roles only (engineers, data scientists, product managers, designers). Skip for non-technical roles and note this to the user.
+
+**Syntax rules:**
+- Use Google X-ray with site:wellfound.com
+- Profile URLs are at wellfound.com/u/username — use site:wellfound.com/u/
+- Keep to 3-4 terms maximum — Wellfound pages are sparse, too many terms returns nothing
+- Include role title and one or two key skills
+- Location is often listed on profiles so include it
+
+**Template structure:**
+```
+site:wellfound.com/u/ "Role Title" OR "Alternate Title" "Key Skill" "Location"
+```
+
+**Example (Senior Python Engineer, Toronto):**
+```
+site:wellfound.com/u/ ("Python engineer" OR "backend engineer" OR "software engineer") "Toronto"
+```
+
 ### Step 4: Quality Check
 
 Before sending, verify each string:
 
 - [ ] Title synonyms cover common variations (minimum 3-4)
 - [ ] Location includes regional variations (city + province/state + country)
-- [ ] LinkedIn string uses uppercase AND/OR/NOT
+- [ ] LinkedIn string uses uppercase AND/OR/NOT, max two OR groups
 - [ ] Google string starts with site:linkedin.com/in/
+- [ ] GitHub string generated for technical roles only; alternate X-ray used for non-technical
+- [ ] Wellfound string generated for tech/startup roles in North America; skipped otherwise
 - [ ] No string exceeds practical length limits
 - [ ] Strings are copy-paste ready — no explanation text inside them
 - [ ] Niche terminology is correct for the industry
