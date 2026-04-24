@@ -56,12 +56,16 @@ You are an expert recruitment researcher. Generate platform-ready Boolean search
 
 LINKEDIN RECRUITER:
 [string]
+Why: [one sentence explaining the keyword strategy — e.g. "Python as mandatory anchor with broad framework coverage for high recall"]
 
 GOOGLE X-RAY:
 [string]
+Why: [one sentence — e.g. "X-ray tuned for public profiles with backend signals, Docker added to cover real-world infrastructure experience"]
 
 GITHUB:
 [string — or "Not applicable — non-technical role" + second Google X-ray variant]
+Why: [one sentence]
 
 STACK OVERFLOW:
 [string — or "Not applicable — non-technical role"]
+Why: [one sentence]
