@@ -1,76 +1,126 @@
 # Boolean String Builder
 
-Generate platform-ready Boolean search strings for recruiters. Works with any AI tool.
+Generate platform-ready Boolean search strings for recruiters. Works with any AI tool — no setup required.
 
 ---
 
-## Three ways to use it
-
-### 1. Any AI chat tool — no setup at all
-
-Copy the prompt from [PROMPT.md](./PROMPT.md), paste into ChatGPT, Claude, Gemini, Copilot, or any other chat interface. Fill in the role. Hit send. Works anywhere, nothing to install.
-
-### 2. AI desktop and CLI apps — clone and run
-
-For apps that have file access and can run Python, clone the repo and point your app at it. Edit `tools/role-brief.txt` with your mandate, then run.
-
-| App | How to use |
-|-----|-----------|
-| Claude Code / Cowork | Open the folder — reads `CLAUDE.md` automatically |
-| Codex CLI / OpenCode | Open the folder — reads `AGENTS.md` automatically |
-| ChatGPT desktop app | Open the folder and ask it to read `AGENTS.md` and generate strings |
-| Gemini CLI | Open the folder and ask it to read `SKILL.md` and generate strings |
-
-```bash
-git clone https://github.com/Richb2021/boolean-builder.git
-cd boolean-builder
-# Edit tools/role-brief.txt with your role
-# Open in your AI app and run
-```
-
-### 3. Automated / webhook — fire remotely, get results by SMS
-
-Point a Claude Code Routine at this repo. Update `tools/role-brief.txt` and trigger via webhook. Results arrive by SMS or webhook within a minute. See [SKILL.md](./SKILL.md) for setup.
-
----
-
-## What problem this solves
+## What it does
 
 Building Boolean search strings is one of the most repetitive tasks in recruitment. A good string for a niche role can take 30-45 minutes to build properly across multiple platforms, each with different syntax.
 
-This prompt does it in seconds.
+This tool generates them in seconds. For each role it produces:
+
+- **LinkedIn Recruiter string** — built to LinkedIn Recruiter's Boolean syntax spec
+- **Google X-ray string** — surfaces public LinkedIn profiles via Google search
+- **GitHub string** — for technical roles, finds candidates with active public repos
+- **Stack Overflow string** — for technical roles, finds candidates with demonstrated technical engagement
+
+Each string comes with a one-line rationale explaining the keyword strategy, so you know why it's built the way it is — not just what it says.
 
 ---
 
 ## How to use it
 
+### Option 1 — Any AI chat tool (no setup)
+
 1. Open [PROMPT.md](./PROMPT.md)
 2. Copy the entire prompt
-3. Paste it into your AI tool of choice
-4. Fill in your role title, location, and key skills where marked
+3. Paste it into ChatGPT, Claude, Gemini, Copilot, or any other AI chat interface
+4. Fill in the role details where marked
 5. Hit send
 
-That is it. Copy the strings it generates, paste into your search platform, run.
+You get back strings for all four platforms with rationale. Nothing to install.
 
 ---
 
-## The strings it generates
+### Option 2 — AI desktop and CLI apps (clone and run)
 
-**LinkedIn Recruiter** — built to LinkedIn Recruiter's Boolean syntax spec. LinkedIn Recruiter is the paid tool used by most recruitment firms doing volume hiring. If you test these strings and have feedback, open an issue. Note: regular LinkedIn search does not support Boolean operators.
+For apps that have file system access — Claude Code, Cowork, Codex CLI, OpenCode, ChatGPT desktop, Gemini CLI — clone the repo, edit the role brief, and open the folder in your app.
+
+**Setup:**
+
+```bash
+git clone https://github.com/Richb2021/boolean-builder.git
+cd boolean-builder
+```
+
+**Edit the role brief:**
+
+Open `tools/role-brief.txt` and fill in your mandate:
+
+```
+Role: Senior Python Engineer
+Location: Toronto, Canada
+Industry: Fintech / SaaS
+Experience: 5+ years
+Skills: Python, FastAPI, Django, microservices, PostgreSQL, AWS, Docker
+Notes: Series B company, hybrid working
+```
+
+**Run in your app:**
+
+| App | What to do |
+|-----|-----------|
+| Claude Code / Cowork | Open the folder — reads `CLAUDE.md` automatically and runs |
+| Codex CLI / OpenCode | Open the folder — reads `AGENTS.md` automatically and runs |
+| ChatGPT desktop | Open the folder, ask it to read `AGENTS.md` and generate strings |
+| Gemini CLI | Open the folder, ask it to read `SKILL.md` and generate strings |
+
+The agent reads your role brief, generates all four strings with rationale, and prints results to the terminal. If notification channels are configured it can also send results by SMS or webhook — see below.
+
+---
+
+### Option 3 — Automated / webhook (results by SMS)
+
+Point a Claude Code Routine at this repo. When triggered, it reads `tools/role-brief.txt`, generates the strings, and sends results by SMS or webhook within a minute.
+
+**Notification channels** — add these as environment variables in your cloud environment:
+
+| Channel | Variables needed |
+|---------|-----------------|
+| Twilio SMS | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_FROM`, `NOTIFY_TO_PHONE` |
+| Webhook | `NOTIFY_WEBHOOK_URL` |
+| Email (SMTP) | `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `NOTIFY_TO_EMAIL` |
+
+If no channels are configured, results print to the terminal and the script exits with code 1.
+
+---
+
+## The platforms
+
+**LinkedIn Recruiter** — built to LinkedIn Recruiter's Boolean syntax spec (AND/OR/NOT in capitals, layered keyword structure, maximum two OR groups). LinkedIn Recruiter is the paid tool used by most recruitment firms doing volume hiring. Regular LinkedIn search does not support Boolean operators. If you test these strings and have feedback, open an issue.
 
 **Google X-ray** — uses `site:linkedin.com/in/` to surface public LinkedIn profiles via Google. Works without any LinkedIn subscription. Tested and confirmed working.
 
-**GitHub** — keyword search with `followers:` filter. For technical roles only. Finds candidates with active public repositories. Tested and confirmed working.
+**GitHub** — keyword search with `followers:>10` and `repos:>3` filters. Technical roles only. Tested and confirmed working.
 
-**Stack Overflow** — Google X-ray on `stackoverflow.com/users` profiles. Shows demonstrated technical ability, not just claimed skills. For technical roles only. Tested and confirmed working.
+**Stack Overflow** — Google X-ray on `stackoverflow.com/users` profiles with reputation filter. Shows candidates with demonstrated technical engagement. Technical roles only. Tested and confirmed working.
 
 ---
 
-## Advanced use — Claude Code agent
+## How the strings are structured
 
-If you use Claude Code, the `SKILL.md` and `CLAUDE.md` files in this repo turn it into an automated agent. Point a Claude Code Routine at the repo, update `tools/role-brief.txt` with your mandate, and get results sent by SMS or webhook without opening a browser.
+Strings are built in layers — not flat keyword lists:
 
-See [SKILL.md](./SKILL.md) for setup instructions.
+1. **Title group** — role title and synonyms (must-have)
+2. **Core skill** — the single primary technology or discipline, mandatory AND
+3. **Supporting skills** — frameworks, tools, alternatives (broad enough to avoid missing strong candidates)
+4. **Location** — regional variations, or applied via UI filter
+
+This layered structure is why the strings produce better recall than manually written Boolean without losing precision.
+
+---
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `PROMPT.md` | Copy-paste prompt for any AI chat tool |
+| `CLAUDE.md` | Agent instructions for Claude Code and Cowork |
+| `AGENTS.md` | Agent instructions for Codex CLI and OpenCode |
+| `SKILL.md` | Full platform rules, syntax reference, and examples |
+| `tools/role-brief.txt` | Edit this with your mandate before running |
+| `tools/notify.py` | Sends results by SMS, webhook, or email |
 
 ---
 
