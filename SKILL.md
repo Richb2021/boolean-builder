@@ -42,22 +42,27 @@ Always generate 4-6 title synonyms minimum. More for ambiguous roles.
 
 #### LinkedIn Recruiter String
 
+**Important:** This string is for **LinkedIn Recruiter** (paid tool, ~$170-200/seat/month). Regular LinkedIn search does not support Boolean operators — it treats AND/OR/NOT as keywords. Recruitment firms doing volume hiring will have Recruiter. Always clarify which tool the client is using.
+
 **Syntax rules:**
 - AND, OR, NOT must be uppercase
 - Use quotes for multi-word phrases: "project manager"
 - Group alternatives in brackets: ("project manager" OR "delivery lead")
 - LinkedIn supports title:, company:, school: operators
-- Keep under 1,000 characters — LinkedIn truncates longer strings
+- **Maximum two OR groups** — LinkedIn Recruiter breaks with more than two nested groups. Keep it simple.
+- Keep under 500 characters to be safe
 - Do NOT use site: operator (that's Google)
 
 **Template structure:**
 ```
-("Title Variant 1" OR "Title Variant 2" OR "Title Variant 3") AND ("Key Skill 1" OR "Key Skill 2") AND ("Location" OR "City Name" OR "Region")
+("Title 1" OR "Title 2" OR "Title 3" OR "Title 4") AND ("Key Skill 1" OR "Key Skill 2" OR "Key Skill 3")
 ```
+
+Add location as a third AND group only if needed — LinkedIn's location filter in the UI is often more reliable than Boolean location terms.
 
 **Example (BESS PM, Ontario):**
 ```
-("BESS Project Manager" OR "Battery Storage PM" OR "Energy Storage Manager" OR "ESS Project Manager" OR "Battery Project Lead") AND ("BESS" OR "Battery Energy Storage" OR "energy storage" OR "battery storage") AND ("Ontario" OR "Toronto" OR "Ottawa" OR "Canada")
+("BESS Project Manager" OR "Battery Storage Project Manager" OR "ESS Project Manager" OR "Energy Storage Manager") AND ("BESS" OR "battery energy storage" OR "EPC" OR "grid interconnection" OR "commissioning")
 ```
 
 #### Google X-ray String
@@ -82,30 +87,35 @@ site:linkedin.com/in/ ("BESS Project Manager" OR "Battery Storage" OR "Energy St
 
 #### GitHub String
 
+**Important:** GitHub search is NOT Boolean. It does not support OR groups with brackets. Use single keywords with qualifier filters. GitHub is only productive for technical roles — developers, data scientists, ML engineers, DevOps. For non-technical roles, produce a second Google X-ray variant instead.
+
 **Syntax rules:**
-- Use location: for candidate location: location:"Ontario"
-- Use language: for tech stack: language:Python
-- Use in:bio to search profile bios
-- Use followers:>10 to filter active users
-- Best for technical roles — less useful for non-technical TA searches
-- For non-technical roles, generate a modified Google X-ray targeting GitHub profiles instead
+- One or two keywords maximum — GitHub search is keyword-based, not Boolean
+- `in:bio` — searches profile bio/description
+- `followers:>N` — filters active users (use >5 to remove empty accounts)
+- `location:"City"` — location filter (not always populated by users)
+- `language:Python` — primary coding language (for technical roles)
+- No OR groups, no brackets, no AND/NOT operators
 
 **Template structure (technical roles):**
 ```
-location:"City OR Region" language:"Primary Language" "Key Skill" in:bio followers:>5
+"key skill or title" in:bio language:Python followers:>10
 ```
 
-**Template structure (non-technical roles — use Google X-ray on GitHub):**
+**Template structure (non-technical roles — second Google X-ray instead):**
 ```
-site:github.com "Role Title" OR "Key Skill" "Location"
-```
-
-**Example (BESS PM — non-technical, use Google X-ray variant):**
-```
-site:linkedin.com/in/ ("battery energy storage" OR "BESS" OR "energy storage systems") ("project manager" OR "programme manager") ("Ontario" OR "Canada") -recruiter -"talent acquisition"
+site:linkedin.com/in/ ("role title" OR "alternate title") ("key skill") ("location") -recruiter
 ```
 
-*Note: For non-technical roles, the GitHub string is less productive. Flag this to the user and provide a second LinkedIn variant instead if appropriate.*
+**Example (AI Consultant — technical adjacent):**
+```
+"AI consultant" in:bio followers:>10
+```
+
+**Example (BESS PM — non-technical, second Google X-ray):**
+```
+site:linkedin.com/in/ ("BESS" OR "battery energy storage" OR "energy storage systems") ("project manager" OR "delivery lead") ("Ontario" OR "Canada") -recruiter
+```
 
 ### Step 4: Quality Check
 
