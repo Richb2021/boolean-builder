@@ -81,9 +81,9 @@ The core skill sits as a mandatory standalone AND — this anchors the search wi
 
 **Example (Senior Python Engineer):**
 ```
-("Senior Python Engineer" OR "Python Developer" OR "Backend Engineer" OR "Senior Backend Developer") AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes OR Docker OR PostgreSQL OR "REST API")
+("Senior Python Engineer" OR "Python Developer" OR "Backend Engineer" OR "Senior Backend Developer") AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes OR Docker OR PostgreSQL OR "REST API" OR API OR backend)
 ```
-*Rationale: Broad title match + Python anchor + flexible skill coverage including database and API layer for maximum recall without wrecking quality.*
+*Rationale: Broad title match + Python anchor + flexible skill coverage including database, API, and generic backend terms — catches strong candidates whose profiles don't explicitly list frameworks.*
 
 **Example (ERP Implementation Consultant):**
 ```
@@ -116,7 +116,7 @@ site:linkedin.com/in/ (SPECIFIC TITLE GROUP) (CORE SKILL) (LOCATION GROUP)
 ```
 site:linkedin.com/in/ ("Python engineer" OR "Python developer" OR "backend engineer") (Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Docker)) ("Toronto" OR "Ontario" OR "Canada")
 ```
-*Rationale: X-ray tuned for public profiles with strong backend signals. Docker added to cover real-world infrastructure experience not always listed on LinkedIn.*
+*Rationale: X-ray tuned for public profiles with strong backend signals. Docker added to capture infrastructure-heavy engineers who don't explicitly list AWS/GCP.*
 
 **Example (ERP Consultant, Manchester):**
 ```
@@ -183,7 +183,7 @@ site:stackoverflow.com/users ("Skill 1" OR "Skill 2" OR "Skill 3") "Location"
 ```
 site:stackoverflow.com/users ("Python" OR "Django" OR "FastAPI") "Toronto" "reputation"
 ```
-*Rationale: Adding "reputation" filters for users with an active reputation score on their profile page — removes low-activity accounts from results.*
+*Rationale: Reputation filter reduces low-activity accounts and increases likelihood of candidates with demonstrated technical engagement.*
 
 **Example (ML Engineer):**
 ```
