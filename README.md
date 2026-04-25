@@ -45,6 +45,14 @@ Or if you prefer the command line: `git clone https://github.com/Richb2021/boole
 
 Provide the role title, location, and key skills. The agent generates all four strings with rationale and prints results. If notification channels are configured it sends results by SMS or webhook instead — see below.
 
+**Using it as a skill inside another folder:**
+
+You can also drop the `boolean-builder` folder inside any project folder you are already working in. Open that project in your AI app as normal, then ask it to run the boolean-builder as a skill:
+
+> "Run the boolean-builder skill in the boolean-builder folder for this role: [role details]"
+
+This is useful if you are already working in a project or folder and want to call Boolean string generation as one step in a larger workflow, without switching context.
+
 ---
 
 ### Option 2 — Any AI chat tool (no desktop app)
