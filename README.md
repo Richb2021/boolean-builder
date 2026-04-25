@@ -99,7 +99,49 @@ This layered structure is why the strings produce better recall than manually wr
 
 ---
 
-## Files
+## Quality and Learning System
+
+Every string the agent generates is automatically validated and the results inform future runs.
+
+### Validation
+
+After generating strings, the agent runs `scripts/validate_boolean.py` — a deterministic Python validator that checks every string against platform-specific rules before output. Nothing leaves the agent with a hard validation failure.
+
+**What it checks:**
+
+| Platform | Checks |
+|----------|--------|
+| LinkedIn Recruiter | No site: operator, uppercase AND/OR/NOT, max 2 OR groups, under 500 chars, has AND connectors, min 4 title synonyms, core skill anchor present, no location in string |
+| Google X-ray | Starts with site:linkedin.com/in/, has quoted phrases, has negative exclusions, not over-specified (max 4 OR groups), has location terms |
+| GitHub | No site: operator, no OR groups in brackets, has in:bio/language:/followers:/repos: qualifiers |
+| Stack Overflow | Starts with site:stackoverflow.com/users, has quoted terms, has reputation filter, has OR group for skills |
+
+Run it manually against any strings:
+
+```bash
+python scripts/validate_boolean.py \
+  --linkedin "your linkedin string" \
+  --google "your google string" \
+  --github "your github string" \
+  --stackoverflow "your stackoverflow string"
+```
+
+Output includes a score per platform (0-100), hard errors that must be fixed, and warnings to review.
+
+### Memory and Learning
+
+The agent reads two files at session start to improve every run:
+
+**`memory/patterns.json`** — structured learning store with:
+- Global lessons (platform rules that have caused problems in production)
+- Validated string patterns by role type (Python engineer, ERP consultant, etc.)
+- Bad patterns to avoid, with the reason and the fix
+
+**`memory/feedback.md`** — human-readable feedback log. After testing strings in production, add a GOOD/OK/BAD rating and a one-line lesson. The agent reads this each session and applies the findings.
+
+Over time the pattern library builds up validated templates by role type — the 10th Python engineer brief produces better strings than the first.
+
+### Files
 
 | File | Purpose |
 |------|---------|
@@ -107,7 +149,10 @@ This layered structure is why the strings produce better recall than manually wr
 | `CLAUDE.md` | Agent instructions for Claude Code and Cowork |
 | `AGENTS.md` | Agent instructions for Codex CLI and OpenCode |
 | `SKILL.md` | Full platform rules, syntax reference, and examples |
-| `tools/role-brief.txt` | Edit this with your mandate before running |
+| `scripts/validate_boolean.py` | Deterministic quality validator — runs after every generation |
+| `memory/patterns.json` | Learning store — global lessons and validated patterns by role type |
+| `memory/feedback.md` | Production feedback log — add GOOD/BAD ratings here |
+| `tools/role-brief.txt` | Optional: pre-load a role brief here |
 | `tools/notify.py` | Sends results by SMS, webhook, or email |
 
 ---
