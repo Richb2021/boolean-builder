@@ -1,0 +1,111 @@
+{
+  "_meta": {
+    "description": "Learning store for Boolean string generation. Agent reads this at session start and updates it after each run. Good patterns improve future outputs. Bad patterns are avoided.",
+    "version": "1.0",
+    "updated": "2026-04-26"
+  },
+  "global_lessons": [
+    "LinkedIn Recruiter silently breaks with more than 2 OR groups — always stay at max 2",
+    "A standalone core skill AND anchor (e.g. AND Python AND) dramatically improves recall over flat keyword lists",
+    "Google X-ray without negative exclusions (-recruiter -consultant -freelancer) returns significant noise",
+    "GitHub search does not support OR groups in brackets — single keyword + qualifiers only",
+    "Stack Overflow X-ray benefits from an OR group of related skills in the Google query",
+    "LinkedIn location filters in the UI outperform location terms in the Boolean string",
+    "Supporting skill groups must include alternatives — strong candidates may use Flask instead of Django",
+    "Adding 'backend' and 'API' as generic catch-all terms in the supporting group catches profiles that don't list specific frameworks"
+  ],
+  "role_patterns": {
+    "python_engineer": {
+      "role_type": "Technical — Backend Engineering",
+      "core_skill_anchor": "Python",
+      "title_synonyms": [
+        "Senior Python Engineer",
+        "Python Developer",
+        "Backend Engineer",
+        "Senior Backend Developer",
+        "Python Software Engineer",
+        "Senior Software Developer"
+      ],
+      "supporting_skills_broad": [
+        "Django", "FastAPI", "Flask", "microservices", "AWS",
+        "Kubernetes", "Docker", "PostgreSQL", "REST API", "API", "backend"
+      ],
+      "lessons": [
+        "Including 'backend' and 'API' as generic terms catches strong candidates whose profiles don't list specific frameworks",
+        "repos:>3 on GitHub filters empty profiles more effectively than followers alone",
+        "Docker catches infrastructure-heavy engineers who don't explicitly list AWS/GCP"
+      ],
+      "validated_strings": {
+        "linkedin": "('Senior Python Engineer' OR 'Python Developer' OR 'Backend Engineer' OR 'Senior Backend Developer') AND Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Kubernetes OR Docker OR PostgreSQL OR 'REST API' OR API OR backend)",
+        "google": "site:linkedin.com/in/ ('Python engineer' OR 'Python developer' OR 'backend engineer') (Python AND (Django OR FastAPI OR Flask OR microservices OR AWS OR Docker)) ('Toronto' OR 'Ontario' OR 'Canada')",
+        "github": "Python in:bio language:Python location:'Toronto' followers:>10 repos:>3",
+        "stackoverflow": "site:stackoverflow.com/users ('Python' OR 'Django' OR 'FastAPI') 'Toronto' 'reputation'"
+      }
+    },
+    "erp_consultant": {
+      "role_type": "Non-Technical — Enterprise Systems",
+      "core_skill_anchor": "SAP OR S/4HANA OR S4HANA",
+      "title_synonyms": [
+        "ERP Implementation Consultant",
+        "SAP Consultant",
+        "SAP S/4HANA Consultant",
+        "Systems Implementation Consultant",
+        "Enterprise Systems Consultant",
+        "SAP Implementation Lead",
+        "ERP Project Manager"
+      ],
+      "supporting_skills_broad": [
+        "implementation", "go-live", "UAT", "change management", "WRICEF", "RICE"
+      ],
+      "lessons": [
+        "SAP version abbreviations matter enormously — S4HANA and S/4 together can add 20-30% more results",
+        "Non-technical roles get a second Google X-ray variant instead of GitHub and Stack Overflow",
+        "-recruiter -'talent acquisition' on the alternate X-ray removes sourcers from results",
+        "Process terms (UAT, go-live) belong in the supporting layer, not anchored as core skill"
+      ],
+      "validated_strings": {
+        "linkedin": "('ERP Implementation Consultant' OR 'SAP Consultant' OR 'SAP S/4HANA Consultant' OR 'Systems Implementation Consultant') AND (SAP OR 'S/4HANA' OR 'S4HANA' OR 'S/4') AND ('implementation' OR 'go-live' OR UAT OR 'change management' OR WRICEF OR RICE)",
+        "google": "site:linkedin.com/in/ ('SAP consultant' OR 'ERP consultant' OR 'SAP S/4HANA') (SAP OR 'S/4HANA') ('Manchester' OR 'North West' OR 'UK')",
+        "alternate_xray": "site:linkedin.com/in/ ('SAP' OR 'S/4HANA' OR 'ERP implementation') ('consultant' OR 'project manager' OR 'delivery lead') ('Manchester' OR 'Leeds' OR 'UK') -recruiter -'talent acquisition'"
+      }
+    }
+  },
+  "bad_patterns": [
+    {
+      "pattern": "site: operator in LinkedIn string",
+      "example": "site:linkedin.com/in/ ('Python Dev') AND Python",
+      "reason": "site: is Google syntax. LinkedIn search ignores it or errors silently.",
+      "fix": "Remove site: from LinkedIn strings entirely. Use Google X-ray for X-ray searches."
+    },
+    {
+      "pattern": "More than 2 OR groups in LinkedIn",
+      "example": "('Title 1' OR 'Title 2') AND ('Skill 1' OR 'Skill 2') AND ('Location 1' OR 'Location 2') AND ('Industry 1' OR 'Industry 2')",
+      "reason": "LinkedIn Recruiter silently breaks with 3+ OR groups. Results become unreliable.",
+      "fix": "Collapse to max 2 OR groups. Move location to UI filter."
+    },
+    {
+      "pattern": "OR groups with brackets in GitHub",
+      "example": "('Python' OR 'Django') in:bio location:'Toronto'",
+      "reason": "GitHub search does not support Boolean OR groups. Brackets are ignored or break the search.",
+      "fix": "Use single keyword + qualifiers: Python in:bio language:Python location:'Toronto' followers:>10"
+    },
+    {
+      "pattern": "No negative exclusions on people X-ray",
+      "example": "site:linkedin.com/in/ ('Head of Operations' OR 'COO') 'UK'",
+      "reason": "Without exclusions, results include recruiters, consultants, freelancers, and students who share titles but are not buyers or candidates.",
+      "fix": "Add -recruiter -consultant -freelancer -'open to work' to filter noise."
+    },
+    {
+      "pattern": "Wellfound X-ray",
+      "example": "site:wellfound.com/u/ ('Python engineer') 'Toronto'",
+      "reason": "Wellfound candidate profiles are behind a login wall. Google only indexes job listings, not candidate profiles.",
+      "fix": "Use Stack Overflow X-ray or GitHub instead for tech talent."
+    },
+    {
+      "pattern": "Flat keyword list with no layered structure",
+      "example": "('Python' OR 'Django' OR 'FastAPI' OR 'Backend Engineer' OR 'AWS' OR 'Docker')",
+      "reason": "Mixing titles and skills in one OR group forces either/or matching and misses strong candidates.",
+      "fix": "Layer: (TITLE GROUP) AND CORE_SKILL AND (SUPPORTING SKILL GROUP)"
+    }
+  ]
+}
